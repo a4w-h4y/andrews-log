@@ -2,77 +2,109 @@
 
 ---
 
-## Recommended: Neocities (free)
+## Hosting on GitHub Pages (free)
 
-**Why Neocities?**
-It's the spiritual successor to GeoCities — built specifically for personal,
-handcrafted websites like this one. It's free, has no ads, and the community
-is full of people making retro, text-heavy, personal sites. It's also
-extremely fitting for a site designed to look like 1996.
-
-**How to publish:**
-
-1. Go to https://neocities.org and create a free account.
-   - Pick a site name (e.g. `andrewsnotebook`) — your URL will be
-     `andrewsnotebook.neocities.org`
-
-2. Once logged in, click **Dashboard**.
-
-3. Click **Upload** and select all the files in your `my-website/` folder.
-   - Upload `index.html`, `style.css`, `about.html`
-   - Then create a `posts` folder and upload all files inside `posts/`
-
-4. Your site is live immediately.
-
-**How to update (add a new post):**
-
-1. Follow the steps in HOW-TO-ADD-A-POST.md to create and edit your files locally.
-2. Log into Neocities > Dashboard > Upload.
-3. Upload the new post file (e.g. `posts/tip-gmail-filters.html`)
-   and the updated `index.html`.
-4. Done. Changes are live in seconds.
+Your site lives in a Git repository, which means GitHub Pages can serve it
+directly. Every time you push changes to GitHub, the site updates automatically
+within a minute or two.
 
 ---
 
-## Alternative: Netlify Drop (also free, slightly simpler uploading)
+### One-time setup
 
-**Why Netlify?**
-More "professional" infrastructure. Drag-and-drop publishing.
-Good if you want a custom domain later.
+**Step 1 — Create a GitHub account**
 
-**How to publish:**
+Go to https://github.com and sign up if you don't have an account.
 
-1. Go to https://app.netlify.com/drop
-2. Drag your entire `my-website/` folder onto the page.
-3. Netlify gives you a random URL (e.g. `lucky-cat-a3f92.netlify.app`).
-   You can rename it to something better in the site settings.
+**Step 2 — Create a new repository**
 
-**How to update:**
+1. Click the **+** in the top-right corner → **New repository**
+2. Name it `andrewslog` (or anything you like)
+3. Leave it **Public**
+4. Do NOT check "Add a README" — your files are already ready
+5. Click **Create repository**
 
-1. Edit your files locally.
-2. Go back to https://app.netlify.com/drop
-3. Drag the folder again. It asks if you want to update the existing site — say yes.
+**Step 3 — Connect your local folder to GitHub**
+
+GitHub will show you a page with setup commands. Run these in Terminal,
+inside your `my-website` folder:
+
+```bash
+git remote add origin https://github.com/YOUR-USERNAME/andrewslog.git
+git push -u origin main
+```
+
+Replace `YOUR-USERNAME` with your actual GitHub username.
+
+**Step 4 — Enable GitHub Pages**
+
+1. Go to your repository on GitHub
+2. Click **Settings** → **Pages** (in the left sidebar)
+3. Under "Source", select **Deploy from a branch**
+4. Set the branch to **main** and the folder to **/ (root)**
+5. Click **Save**
+
+Your site will be live at:
+`https://YOUR-USERNAME.github.io/andrewslog`
+
+It may take a minute or two the first time.
+
+**Step 5 — Custom domain (optional, ~$12/year)**
+
+If you want `andrewslog.com` instead of the GitHub URL:
+
+1. Buy a domain at Namecheap (https://namecheap.com) or
+   Porkbun (https://porkbun.com)
+2. In your repo's **Settings → Pages**, enter your custom domain
+3. Follow GitHub's DNS instructions — it takes about 10 minutes to configure
 
 ---
 
-## Custom domain (optional, ~$12/year)
+### Publishing changes (the everyday workflow)
 
-If you want `andrewsnotebook.com` instead of a free subdomain:
+Every time you add or edit a post, guide, or any other file:
 
-1. Buy a domain at Namecheap (https://namecheap.com) or Porkbun (https://porkbun.com).
-   Porkbun tends to be slightly cheaper.
-2. Both Neocities and Netlify have simple instructions for pointing a custom
-   domain at your site — it's about a 10-minute setup.
+```bash
+# 1. Stage your changed files
+git add .
+
+# 2. Commit with a short description of what you changed
+git commit -m "Add post: Mac keyboard shortcuts"
+
+# 3. Push to GitHub — the site updates automatically
+git push
+```
+
+That's it. Three commands and your changes are live.
 
 ---
 
-## Summary recommendation
+### Useful Git commands to know
 
-| Option          | Cost  | Ease of updating | Vibe match |
-|-----------------|-------|------------------|------------|
-| Neocities       | Free  | Good             | Perfect    |
-| Netlify Drop    | Free  | Very easy        | Good       |
-| Custom domain   | ~$12/yr | Same as above  | Great      |
+| Command | What it does |
+|---|---|
+| `git status` | Shows which files have changed since your last commit |
+| `git add .` | Stages all changed files for the next commit |
+| `git add filename.html` | Stages one specific file |
+| `git commit -m "message"` | Saves a snapshot with a description |
+| `git push` | Sends your commits to GitHub |
+| `git log --oneline` | Shows a compact history of all your commits |
+| `git diff` | Shows exactly what changed in your files |
 
-**Start with Neocities.** It fits the aesthetic perfectly, the community
-will appreciate what you're building, and it costs nothing.
+---
+
+### If something goes wrong
+
+If you accidentally break something and want to go back to your last
+working version:
+
+```bash
+# Discard all unsaved changes (use with care)
+git restore .
+
+# See the history to find a good commit to go back to
+git log --oneline
+
+# Go back to a specific commit (replace abc1234 with the commit ID)
+git checkout abc1234 -- filename.html
+```
