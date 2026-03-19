@@ -1,0 +1,16 @@
+---
+layout: default
+---
+
+<a class="back-link" href="{{ '/' | relative_url }}">back to all posts</a>
+
+<div class="post-meta">
+  {{ page.date | date: "%Y-%m-%d" }} | <span class="tag tag-{{ page.tag }}">{{ page.tag | upcase }}</span>
+</div>
+
+<h2>{{ page.title }}</h2>
+<hr>
+
+<div class="post-body">
+  {{ content }}
+</div>

@@ -1,0 +1,12 @@
+title: Andrew's Log
+description: opinions & observations
+
+# Set this to /your-repo-name if hosting as a GitHub project page
+# (e.g. github.com/andrewh/andrewslog → baseurl: "/andrewslog")
+# Set to "" if you have a custom domain or a user/org page (username.github.io)
+baseurl: "/andrews-log"
+url: "https://a4w-h4y.github.io"
+
+markdown: kramdown
+kramdown:
+  input: GFM

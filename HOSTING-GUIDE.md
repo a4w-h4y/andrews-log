@@ -60,22 +60,90 @@ If you want `andrewslog.com` instead of the GitHub URL:
 
 ---
 
+## Writing content in Markdown
+
+Rather than editing HTML directly, you write posts and guides as plain
+Markdown (`.md`) files. GitHub Pages runs Jekyll automatically when you push,
+so the Markdown-to-HTML conversion happens on GitHub's servers — no build
+step on your end.
+
+---
+
+### How it works
+
+1. You write a `.md` file with a short block of metadata at the top (called
+   frontmatter), then plain prose below.
+2. You commit and push.
+3. GitHub Pages runs Jekyll, converts your `.md` files to HTML, and serves
+   the result. The whole process takes about 30–60 seconds.
+
+---
+
+### Frontmatter format
+
+Every Markdown post or guide starts with a `---` block:
+
+```
+---
+layout: post
+title: Mac Keyboard Shortcuts Worth Memorizing
+date: 2026-03-18
+tag: tip
+---
+
+Your post content starts here...
+```
+
+The `layout` field tells Jekyll which template to use. Use `post` for posts
+and `guide` for guides. Valid tag values are `tip`, `review`, and `misc`.
+
+---
+
+### Folder layout
+
+| File you create | URL on the live site |
+|---|---|
+| `posts/my-new-post.md` | `/posts/my-new-post.html` |
+| `guides/my-new-guide.md` | `/guides/my-new-guide.html` |
+
+---
+
+### Updating the posts list on the homepage
+
+After adding a new post, open `index.html` and add an entry to the top of
+the post list:
+
+```html
+<article>
+  <div class="post-meta">
+    2026-03-18 | <span class="tag tag-tip">TIP</span>
+  </div>
+  <h2><a href="{{ '/posts/my-new-post.html' | relative_url }}">My New Post Title</a></h2>
+  <p class="post-excerpt">A one or two sentence description.</p>
+</article>
+
+<hr>
+```
+
+The homepage list stays hand-edited so you have full control over order
+and excerpts.
+
+---
+
 ### Publishing changes (the everyday workflow)
 
-Every time you add or edit a post, guide, or any other file:
-
 ```bash
-# 1. Stage your changed files
+# 1. Stage your new or changed files
 git add .
 
-# 2. Commit with a short description of what you changed
+# 2. Commit with a short description
 git commit -m "Add post: Mac keyboard shortcuts"
 
-# 3. Push to GitHub — the site updates automatically
+# 3. Push — GitHub Pages builds and deploys automatically
 git push
 ```
 
-That's it. Three commands and your changes are live.
+That's it. Three commands and your changes are live within about a minute.
 
 ---
 
