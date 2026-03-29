@@ -4,76 +4,68 @@
 
 ## Adding a post
 
-### Step 1 — Copy the template
+### Step 1 — Create a new Markdown file
 
-In the `posts/` folder, duplicate `_TEMPLATE.html` and rename it.
-Use a short, descriptive filename with no spaces. Examples:
+In the `posts/` folder, create a new file. You can duplicate `_TEMPLATE.md`
+as a starting point, or create one from scratch. Use a short, descriptive
+filename with no spaces:
 
-    tip-gmail-filters.html
-    review-kindle-paperwhite.html
-    misc-thoughts-on-hiking.html
+    tip-gmail-filters.md
+    review-kindle-paperwhite.md
+    misc-thoughts-on-hiking.md
 
 ---
 
-### Step 2 — Edit the post file
+### Step 2 — Fill in the frontmatter
 
-Open your new file in any text editor (TextEdit on Mac works fine;
-BBEdit or VS Code are better if you have them).
+At the very top of the file, add a block like this (called frontmatter):
 
-Change these four things:
+```
+---
+layout: post
+title: Your Post Title Here
+date: 2026-03-18
+tag: tip
+---
+```
 
-1. **Title tag** (line 6): `<title>Your Title Here — ANDREW'S LOG</title>`
-2. **Date** (in the `post-meta` div): `YYYY-MM-DD`
-3. **Tag** (same div): choose one:
-   - `<span class="tag tag-tip">TIP</span>`
-   - `<span class="tag tag-review">REVIEW</span>`
-   - `<span class="tag tag-misc">MISC</span>`
-4. **Post title heading**: `<h2>Your Post Title Here</h2>`
+- `layout` should always be `post` for posts
+- `date` uses the format `YYYY-MM-DD`
+- `tag` must be one of: `tip`, `review`, or `misc`
 
-Then write your content inside the `<div class="post-body">` section.
+---
 
-Useful HTML you'll use often:
+### Step 3 — Write your content
 
-```html
-<!-- A paragraph -->
-<p>Your text here.</p>
+Everything below the closing `---` is your post body, written in plain
+Markdown. Common formatting:
 
-<!-- A section heading -->
-<h3>my section</h3>
+```markdown
+A paragraph is just plain text. Leave a blank line between paragraphs.
 
-<!-- A bulleted list -->
-<ul>
-  <li>Item one</li>
-  <li>Item two</li>
-</ul>
+### a section heading
 
-<!-- Inline code or keyboard shortcut -->
-<code>Cmd + C</code>
+- A bulleted list item
+- Another item
 
-<!-- A callout / verdict box -->
-<blockquote>Verdict: worth it.</blockquote>
+`Cmd + C` renders as inline code (good for keyboard shortcuts)
+
+> A blockquote — good for verdicts or callouts.
 ```
 
 ---
 
-### Step 3 — Add it to the posts page
+### Step 4 — Add it to the posts page
 
-Open `index.html` in your text editor.
-
-Find this comment near the top of the `<section class="post-list">`:
-
-```html
-<!-- POSTS — newest first. To add a new post: ... -->
-```
-
-Paste this block **directly below that comment**, filling in your details:
+Open `index.html` and paste this block at the **top** of the
+`<section class="post-list">`, filling in your details:
 
 ```html
 <article>
   <div class="post-meta">
     2026-03-18 | <span class="tag tag-tip">TIP</span>
   </div>
-  <h2><a href="posts/your-filename.html">Your Post Title Here</a></h2>
+  <h2><a href="{{ '/posts/your-filename.html' | relative_url }}">Your Post Title Here</a></h2>
   <p class="post-excerpt">
     One or two sentence description of the post.
   </p>
@@ -82,58 +74,70 @@ Paste this block **directly below that comment**, filling in your details:
 <hr>
 ```
 
+Note: the link uses `your-filename.html` even though you wrote a `.md` file —
+Jekyll converts it automatically.
+
 ---
 
-### Step 4 — Deploy
+### Step 5 — Deploy
 
-See HOSTING-GUIDE.md for how to publish your changes.
+```bash
+git add .
+git commit -m "Add post: your title here"
+git push
+```
+
+GitHub Pages builds the site automatically. It's live within about a minute.
 
 ---
 
 ## Adding a guide
 
-Guides live in the `guides/` folder. Each guide is a single HTML page covering
+Guides live in the `guides/` folder. Each guide is a single page covering
 one topic, with prose sections and links to related posts.
 
 ### Step 1 — Create the guide file
 
-In the `guides/` folder, create a new file named after the topic. Examples:
+In the `guides/` folder, create a new Markdown file named after the topic:
 
-    streaming.html
-    iphone.html
-    productivity.html
-
-Copy the structure from `guides/macos.html` as your starting point.
+    streaming.md
+    iphone.md
+    productivity.md
 
 ---
 
-### Step 2 — Edit the guide file
+### Step 2 — Fill in the frontmatter
 
-Change these things:
-
-1. **Title tag**: `<title>Topic — Guides — ANDREW'S LOG</title>`
-2. **The `<h2>` heading**: your topic name
-3. **The body content**: write topical sections using `<h3>` subheadings and `<p>` paragraphs
-
-To link to a related post from within a guide:
-
-```html
-<p>See: <a href="../posts/your-post-filename.html">Post title here</a></p>
+```
+---
+layout: guide
+title: Topic Name Here
+---
 ```
 
-Note the `../` prefix — guide pages are one level deeper than the root,
-so links to posts need to go up one directory first.
+- `layout` should always be `guide` for guides
+- `title` is what appears as the page heading automatically
 
 ---
 
-### Step 3 — Add it to the guides index
+### Step 3 — Write your content
+
+Same Markdown syntax as posts. To link to a related post from within a guide:
+
+```markdown
+See: [Post title here](../posts/your-post-filename.html)
+```
+
+---
+
+### Step 4 — Add it to the guides index
 
 Open `guides/index.html` and add an entry inside the
 `<section class="guide-list">`:
 
 ```html
 <article>
-  <h2><a href="your-topic.html">Topic Name</a></h2>
+  <h2><a href="{{ '/guides/your-topic.html' | relative_url }}">Topic Name</a></h2>
   <p>One sentence describing what the guide covers.</p>
 </article>
 
@@ -142,9 +146,13 @@ Open `guides/index.html` and add an entry inside the
 
 ---
 
-### Step 4 — Deploy
+### Step 5 — Deploy
 
-See HOSTING-GUIDE.md for how to publish your changes.
+```bash
+git add .
+git commit -m "Add guide: topic name"
+git push
+```
 
 ---
 
@@ -152,7 +160,5 @@ See HOSTING-GUIDE.md for how to publish your changes.
 
 - Keep filenames lowercase with hyphens, no spaces.
 - Always add new posts at the TOP of the list in `index.html`.
-- You can preview the site locally by double-clicking any HTML file —
-  no server needed.
 - If a post grows into something reference-worthy, consider turning it
   into a guide (or linking to it from one).
